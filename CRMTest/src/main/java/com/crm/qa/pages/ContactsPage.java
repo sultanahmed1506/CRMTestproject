@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.crm.qa.base.TestBase;
@@ -18,7 +19,8 @@ public class ContactsPage extends TestBase {
 	@FindBy(xpath = "//td[text()='+name+']//parent::td//preceding-sibling::td//input[@type='checkbox']")
 	WebElement contactChkBox;
 
-	@FindBy(xpath = "//button[text()='New']")
+	//@FindBy(xpath = "//button[text()='New']")
+	@FindBy(xpath= "//a[contains(@href,'contacts/new')]")
 	WebElement contactsNewBtn;
 
 	@FindBy(name = "first_name")
@@ -80,13 +82,18 @@ public class ContactsPage extends TestBase {
 		Thread.sleep(4000);
 	}
 
-	public void clickOnNewContactLink(String ftname, String ltname, String status, String comp)
-			throws InterruptedException {
+	public void clickOnNewContactLink(String ftname, String ltname, String status, String comp) throws InterruptedException{
+		Thread.sleep(3000);
+		driver.navigate().refresh();
 		contactsNewBtn.click();
+		
+		//Thread.sleep(3000);
+		//driver.navigate().refresh();
+		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("firstName")));
 		firstName.sendKeys(ftname);
 		lastName.sendKeys(ltname);
 		companyName.sendKeys(comp);
-
+		
 		statusSelect.click();
 		List<WebElement> listStatus = driver
 				.findElements(By.xpath("//div[@class='visible menu transition']//div//span"));
@@ -98,6 +105,7 @@ public class ContactsPage extends TestBase {
 			}
 		}
 		saveBtn.click();
+		
 		Thread.sleep(3000);
 	}
 
